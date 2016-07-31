@@ -59,4 +59,4 @@ def snippets(keyword):
 def index(request):
     keyword = request.GET.get('key', '')
     context = snippets(keyword)
-    return HttpResponse(json.dumps(context))
+    return HttpResponse(json.dumps(context).decode('unicode-escape').encode('utf8'))
