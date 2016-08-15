@@ -46,7 +46,7 @@ def snippets(keyword):
                     text_rich = rich_snippet['metatags']['ogDescription'].replace('*', '').replace('"', '') \
                         .replace('...', '.').replace('/', '').replace('[', '').replace(']', '').replace("'", '')
                     # rich_text.append(text_rich)
-                    print text_rich
+                    #print text_rich
                     random_insert(contents, text_rich)
             if 'review' in rich_snippet:
                 for item in rich_snippet['review']:
