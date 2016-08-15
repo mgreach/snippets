@@ -36,7 +36,7 @@ def snippets(keyword):
     for snippet in data['results']:
         content_string = snippet['contentNoFormatting'].replace('*', '').replace('"', '') \
             .replace('...', '.').replace('/', '').replace('[', '').replace(']', '')
-        print content_string
+        #print content_string
         if 'richSnippet' in snippet:
             rich_snippet = snippet['richSnippet']
             if 'cseImage' in rich_snippet:
