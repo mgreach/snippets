@@ -14,7 +14,7 @@ from random import randrange
 
 def random_insert(lst, item):
     if item not in lst:
-        lst.insert(randrange(len(lst)+1), item)
+        lst.insert(randrange(len(lst) + 1), item)
 
 
 def snippets(keyword):
@@ -25,7 +25,8 @@ def snippets(keyword):
     result = ''
     content_url = 'https://www.googleapis.com/customsearch/v1element?key=' \
                   'AIzaSyCVAXiUzRYsML1Pv6RwSG1gunmMikTzQqY&cx=partner-pub-2114605467104271:6649524146&num=' \
-                  '20&prettyPrint=false&hl=ru&q=' + urllib.quote_plus(keyword.encode('utf-8')) + '&googlehost=www.google.com'
+                  '20&prettyPrint=false&hl=ru&q=' + urllib.quote_plus(
+        keyword.encode('utf-8')) + '&googlehost=www.google.com'
     g = Grab()
     g.setup(timeout=0, connect_timeout=180)
     g.setup(
@@ -33,20 +34,24 @@ def snippets(keyword):
     g.go(content_url)
     data = json.loads(g.response.body)
     for snippet in data['results']:
-        content_string = snippet['contentNoFormatting'].replace('*', '').replace('"', '')\
-            .replace('...', '.').replace('/', '')
+        content_string = snippet['contentNoFormatting'].replace('*', '').replace('"', '') \
+            .replace('...', '.').replace('/', '').replace('[', '').replace(']', '')
         if 'richSnippet' in snippet:
             rich_snippet = snippet['richSnippet']
             if 'cseImage' in rich_snippet:
                 images.append(rich_snippet['cseImage']['src'])
             if 'metatags' in rich_snippet:
                 if 'ogDescription' in rich_snippet['metatags']:
-                    rich_text.append(rich_snippet['metatags']['ogDescription'])
+                    text_rich = rich_snippet['metatags']['ogDescription'].replace('*', '').replace('"', '') \
+                        .replace('...', '.').replace('/', '').replace('[', '').replace(']', '').replace("'", '')
+                    rich_text.append(text_rich)
                     random_insert(contents, rich_snippet['metatags']['ogDescription'])
             if 'review' in rich_snippet:
                 for item in rich_snippet['review']:
                     if 'reviewbody' in item:
-                        random_insert(contents, item['reviewbody'])
+                        review = item['reviewbody'].replace('*', '').replace('"', '') \
+                            .replace('...', '.').replace('/', '').replace('[', '').replace(']', '').replace("'", '')
+                        random_insert(contents, review)
         random_insert(contents, content_string)
     for line in contents:
         line = HTMLParser().unescape(re.sub('<[^<]+?>', '', line))
