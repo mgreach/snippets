@@ -45,7 +45,7 @@ def snippets(keyword):
                 if 'ogDescription' in rich_snippet['metatags']:
                     text_rich = rich_snippet['metatags']['ogDescription'].replace('*', '').replace('"', '') \
                         .replace('...', '.').replace('/', '').replace('[', '').replace(']', '').replace("'", '')
-                    #rich_text.append(text_rich)
+                    # rich_text.append(text_rich)
                     print text_rich
                     random_insert(contents, text_rich)
             if 'review' in rich_snippet:
@@ -58,7 +58,8 @@ def snippets(keyword):
     for line in contents:
         line = HTMLParser().unescape(re.sub('<[^<]+?>', '', line))
         result += ' ' + line
-    result = result.replace('&', '')
+    result = result.replace('&', '').replace('*', '').replace('"', '') \
+        .replace('...', '.').replace('/', '').replace('[', '').replace(']', '').replace("'", '')
     context = {'text': result, 'images': images}
     return context
 
@@ -66,5 +67,5 @@ def snippets(keyword):
 def index(request):
     keyword = request.GET.get('key', '')
     context = snippets(keyword)
-    #return HttpResponse(json.dumps(context).decode('unicode-escape').encode('utf8'))
+    # return HttpResponse(json.dumps(context).decode('unicode-escape').encode('utf8'))
     return HttpResponse(json.dumps(context))
