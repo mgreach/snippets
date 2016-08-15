@@ -33,7 +33,7 @@ def snippets(keyword):
     g.go(content_url)
     data = json.loads(g.response.body)
     for snippet in data['results']:
-        content_string = snippet['contentNoFormatting'].replace('*', '').replace('"', '&quot;')\
+        content_string = snippet['contentNoFormatting'].replace('*', '').replace('"', '')\
             .replace('...', '.').replace('/', '')
         if 'richSnippet' in snippet:
             rich_snippet = snippet['richSnippet']
