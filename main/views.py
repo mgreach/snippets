@@ -36,6 +36,7 @@ def snippets(keyword):
     for snippet in data['results']:
         content_string = snippet['contentNoFormatting'].replace('*', '').replace('"', '') \
             .replace('...', '.').replace('/', '').replace('[', '').replace(']', '')
+        print content_string
         if 'richSnippet' in snippet:
             rich_snippet = snippet['richSnippet']
             if 'cseImage' in rich_snippet:
@@ -44,8 +45,9 @@ def snippets(keyword):
                 if 'ogDescription' in rich_snippet['metatags']:
                     text_rich = rich_snippet['metatags']['ogDescription'].replace('*', '').replace('"', '') \
                         .replace('...', '.').replace('/', '').replace('[', '').replace(']', '').replace("'", '')
-                    rich_text.append(text_rich)
-                    random_insert(contents, rich_snippet['metatags']['ogDescription'])
+                    #rich_text.append(text_rich)
+                    print text_rich
+                    random_insert(contents, text_rich)
             if 'review' in rich_snippet:
                 for item in rich_snippet['review']:
                     if 'reviewbody' in item:
